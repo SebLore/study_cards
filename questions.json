@@ -3,7 +3,7 @@
     "questionNumber": 1,
     "question": "What does FAT stand for in the context of file systems?",
     "topic": "File Systems",
-    "answer": ["File Allocation Table"],
+    "answers": ["File Allocation Table"],
     "hint": "It's a common file system used in personal computers.",
     "type": "single"
   },
@@ -11,7 +11,7 @@
     "questionNumber": 2,
     "question": "Which version of FAT is commonly used on USB flash drives?",
     "topic": "File Systems",
-    "answer": ["FAT32"],
+    "answers": ["FAT32"],
     "hint": "It's an updated version of the original FAT system.",
     "type": "single"
   },
@@ -19,7 +19,7 @@
     "questionNumber": 3,
     "question": "Which of the following is a limitation of FAT16 compared to FAT32?",
     "topic": "File Systems",
-    "answer": ["FAT16 supports smaller disk sizes"],
+    "answers": ["FAT16 supports smaller disk sizes"],
     "hint": "FAT16 cannot handle very large disk sizes like FAT32.",
     "type": "multiple-single",
     "options": [
@@ -33,7 +33,7 @@
     "questionNumber": 4,
     "question": "What is the maximum file size supported by FAT32?",
     "topic": "File Systems",
-    "answer": ["4 GB"],
+    "answers": ["4 GB"],
     "hint": "FAT32 cannot support files larger than this size.",
     "type": "single"
   },
@@ -41,7 +41,7 @@
     "questionNumber": 5,
     "question": "Which of these file systems is an upgrade from FAT12?",
     "topic": "File Systems",
-    "answer": ["FAT16"],
+    "answers": ["FAT16"],
     "hint": "FAT12 is an older version of FAT with smaller file system capacity.",
     "type": "single"
   },
@@ -49,7 +49,7 @@
     "questionNumber": 6,
     "question": "What is the main advantage of FAT32 over FAT16?",
     "topic": "File Systems",
-    "answer": ["FAT32 supports larger disk sizes"],
+    "answers": ["FAT32 supports larger disk sizes"],
     "hint": "FAT32 can handle larger volumes than FAT16.",
     "type": "single"
   },
@@ -57,7 +57,7 @@
     "questionNumber": 7,
     "question": "Which FAT file system was commonly used in older versions of MS-DOS?",
     "topic": "File Systems",
-    "answer": ["FAT12"],
+    "answers": ["FAT12"],
     "hint": "FAT12 was used in early PC systems and MS-DOS.",
     "type": "single"
   },
@@ -65,7 +65,7 @@
     "questionNumber": 8,
     "question": "Which of the following FAT file systems can support partitions of up to 2 TB?",
     "topic": "File Systems",
-    "answer": ["FAT32"],
+    "answers": ["FAT32"],
     "hint": "FAT32 supports partitions up to 2 TB in size.",
     "type": "multiple-single",
     "options": ["FAT12", "FAT16", "FAT32", "exFAT"]
@@ -74,7 +74,7 @@
     "questionNumber": 9,
     "question": "Which FAT file system is commonly used in modern external storage devices?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "exFAT is an extension designed for flash drives and SD cards.",
     "type": "single"
   },
@@ -82,7 +82,7 @@
     "questionNumber": 10,
     "question": "Which of the following is true about FAT file systems?",
     "topic": "File Systems",
-    "answer": ["FAT file systems do not have built-in file permissions"],
+    "answers": ["FAT file systems do not have built-in file permissions"],
     "hint": "FAT lacks advanced security features like file permissions.",
     "type": "multiple-single",
     "options": [
@@ -96,7 +96,7 @@
     "questionNumber": 11,
     "question": "Which of the following is a major disadvantage of using FAT file systems?",
     "topic": "File Systems",
-    "answer": ["Lack of security features"],
+    "answers": ["Lack of security features"],
     "hint": "FAT lacks advanced file permissions and encryption.",
     "type": "multiple-single",
     "options": [
@@ -110,7 +110,7 @@
     "questionNumber": 12,
     "question": "In FAT file systems, what is used to locate files on a storage device?",
     "topic": "File Systems",
-    "answer": ["File Allocation Table"],
+    "answers": ["File Allocation Table"],
     "hint": "This table helps the system find the locations of files stored on the disk.",
     "type": "single"
   },
@@ -118,7 +118,7 @@
     "questionNumber": 13,
     "question": "What is the main purpose of the cluster in the FAT file system?",
     "topic": "File Systems",
-    "answer": ["To group sectors together for efficient file storage"],
+    "answers": ["To group sectors together for efficient file storage"],
     "hint": "Clusters make storage allocation more efficient in FAT.",
     "type": "single"
   },
@@ -126,7 +126,7 @@
     "questionNumber": 14,
     "question": "What is the maximum number of files a FAT12 file system can manage in a single partition?",
     "topic": "File Systems",
-    "answer": ["2^12 (4,096 files)"],
+    "answers": ["2^12 (4,096 files)"],
     "hint": "FAT12 is limited in the number of files due to its smaller file allocation table.",
     "type": "single"
   },
@@ -134,7 +134,7 @@
     "questionNumber": 15,
     "question": "Which of these FAT file systems supports the largest disk size?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "exFAT is designed for larger storage media such as SD cards.",
     "type": "multiple-single",
     "options": ["FAT12", "FAT16", "FAT32", "exFAT"]
@@ -143,7 +143,7 @@
     "questionNumber": 16,
     "question": "Which FAT file system was designed to work with flash memory and SD cards?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "exFAT is used in portable storage devices like flash drives.",
     "type": "single"
   },
@@ -151,7 +151,7 @@
     "questionNumber": 17,
     "question": "What happens when a FAT file system reaches its maximum number of clusters?",
     "topic": "File Systems",
-    "answer": [
+    "answers": [
       "The file system becomes full and can no longer store more data"
     ],
     "hint": "If there are no free clusters, no additional files can be saved.",
@@ -161,7 +161,7 @@
     "questionNumber": 18,
     "question": "Which of these is a feature introduced by exFAT over FAT32?",
     "topic": "File Systems",
-    "answer": ["Support for larger files and drives"],
+    "answers": ["Support for larger files and drives"],
     "hint": "exFAT supports larger files than FAT32.",
     "type": "multiple-single",
     "options": [
@@ -175,7 +175,7 @@
     "questionNumber": 19,
     "question": "What is the default cluster size for FAT32 on smaller storage devices?",
     "topic": "File Systems",
-    "answer": ["4 KB"],
+    "answers": ["4 KB"],
     "hint": "Smaller devices like USB drives use 4 KB clusters by default.",
     "type": "single"
   },
@@ -183,7 +183,7 @@
     "questionNumber": 20,
     "question": "What is a common use case for the exFAT file system?",
     "topic": "File Systems",
-    "answer": ["External hard drives and large SD cards"],
+    "answers": ["External hard drives and large SD cards"],
     "hint": "exFAT is commonly used for devices requiring large file support.",
     "type": "single"
   },
@@ -191,7 +191,7 @@
     "questionNumber": 21,
     "question": "What type of data structure is used in the FAT file system to track the clusters used by files?",
     "topic": "File Systems",
-    "answer": ["FAT table"],
+    "answers": ["FAT table"],
     "hint": "The FAT table maps clusters to files or free space.",
     "type": "single"
   },
@@ -199,7 +199,7 @@
     "questionNumber": 22,
     "question": "Which file system introduced by Microsoft is based on FAT and optimized for flash storage?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "This file system is specifically designed for flash memory.",
     "type": "single"
   },
@@ -207,7 +207,7 @@
     "questionNumber": 23,
     "question": "What is a drawback of using FAT file systems for modern large disks?",
     "topic": "File Systems",
-    "answer": ["Limited efficiency with large volumes"],
+    "answers": ["Limited efficiency with large volumes"],
     "hint": "FAT systems are less efficient with large volumes due to the table structure.",
     "type": "single"
   },
@@ -215,7 +215,7 @@
     "questionNumber": 24,
     "question": "Which of the following is an advantage of FAT over NTFS?",
     "topic": "File Systems",
-    "answer": [
+    "answers": [
       "FAT is more widely compatible across different operating systems"
     ],
     "hint": "FAT systems are supported by many operating systems including older versions.",
@@ -231,7 +231,7 @@
     "questionNumber": 25,
     "question": "What is the maximum number of clusters that FAT32 can support?",
     "topic": "File Systems",
-    "answer": ["2^28 (268,435,456 clusters)"],
+    "answers": ["2^28 (268,435,456 clusters)"],
     "hint": "FAT32 allows up to 268 million clusters, supporting large disks.",
     "type": "single"
   },
@@ -239,7 +239,7 @@
     "questionNumber": 26,
     "question": "Which FAT file system supports the largest theoretical disk size?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "exFAT supports the largest disks and file sizes.",
     "type": "single"
   },
@@ -247,7 +247,7 @@
     "questionNumber": 27,
     "question": "Which version of FAT allows for a maximum of 256 GB volume size?",
     "topic": "File Systems",
-    "answer": ["FAT32"],
+    "answers": ["FAT32"],
     "hint": "FAT32 supports volume sizes up to 256 GB depending on the operating system.",
     "type": "single"
   },
@@ -255,7 +255,7 @@
     "questionNumber": 28,
     "question": "What is the role of the 'FAT Entry' in the FAT table?",
     "topic": "File Systems",
-    "answer": ["To track the next cluster in a file's allocation chain"],
+    "answers": ["To track the next cluster in a file's allocation chain"],
     "hint": "Each entry in the FAT points to the next cluster in the sequence.",
     "type": "single"
   },
@@ -263,7 +263,7 @@
     "questionNumber": 29,
     "question": "What does a 'bad cluster' in a FAT file system indicate?",
     "topic": "File Systems",
-    "answer": ["The cluster is damaged and cannot be used for storage"],
+    "answers": ["The cluster is damaged and cannot be used for storage"],
     "hint": "Bad clusters cannot be used to store data and must be marked as unavailable.",
     "type": "single"
   },
@@ -271,7 +271,7 @@
     "questionNumber": 30,
     "question": "How does the FAT file system handle file fragmentation?",
     "topic": "File Systems",
-    "answer": [
+    "answers": [
       "FAT can suffer from fragmentation, leading to slower performance"
     ],
     "hint": "Fragmentation happens when files are scattered across the disk.",
@@ -281,7 +281,7 @@
     "questionNumber": 31,
     "question": "Which operating system is most likely to use FAT32 for external devices?",
     "topic": "File Systems",
-    "answer": ["Windows"],
+    "answers": ["Windows"],
     "hint": "Windows uses FAT32 for compatibility with external drives.",
     "type": "single"
   },
@@ -289,7 +289,7 @@
     "questionNumber": 32,
     "question": "Which FAT system is commonly used for smaller devices like memory cards?",
     "topic": "File Systems",
-    "answer": ["FAT16"],
+    "answers": ["FAT16"],
     "hint": "FAT16 is often used in smaller storage media.",
     "type": "single"
   },
@@ -297,7 +297,7 @@
     "questionNumber": 33,
     "question": "What does the FAT32 file system use to organize the files and directories?",
     "topic": "File Systems",
-    "answer": ["File Allocation Table and Directory Table"],
+    "answers": ["File Allocation Table and Directory Table"],
     "hint": "The FAT table helps organize the data and directory structure.",
     "type": "single"
   },
@@ -305,7 +305,7 @@
     "questionNumber": 34,
     "question": "Which of these is a limitation of the FAT file system?",
     "topic": "File Systems",
-    "answer": ["Lack of file permissions"],
+    "answers": ["Lack of file permissions"],
     "hint": "FAT does not support advanced file permissions and security.",
     "type": "multiple-single",
     "options": [
@@ -319,7 +319,7 @@
     "questionNumber": 35,
     "question": "Which of these FAT file systems supports files larger than 4 GB?",
     "topic": "File Systems",
-    "answer": ["exFAT"],
+    "answers": ["exFAT"],
     "hint": "exFAT supports files that are larger than 4 GB.",
     "type": "multiple-single",
     "options": ["FAT12", "FAT16", "FAT32", "exFAT"]
@@ -328,7 +328,7 @@
     "questionNumber": 36,
     "question": "How does FAT32 allocate space for files?",
     "topic": "File Systems",
-    "answer": ["Using clusters"],
+    "answers": ["Using clusters"],
     "hint": "FAT32 divides the disk into clusters for storing file data.",
     "type": "single"
   },
@@ -336,7 +336,7 @@
     "questionNumber": 37,
     "question": "Which of the following is true about FAT file systems and file sizes?",
     "topic": "File Systems",
-    "answer": ["FAT file systems support smaller file sizes compared to NTFS"],
+    "answers": ["FAT file systems support smaller file sizes compared to NTFS"],
     "hint": "FAT systems have smaller file size limits than NTFS.",
     "type": "multiple-single",
     "options": [
@@ -350,7 +350,7 @@
     "questionNumber": 38,
     "question": "What happens when a file is deleted from a FAT file system?",
     "topic": "File Systems",
-    "answer": [
+    "answers": [
       "The clusters are marked as free, but the data remains until overwritten"
     ],
     "hint": "FAT systems only mark the space as available but don't immediately erase data.",
@@ -360,7 +360,7 @@
     "questionNumber": 39,
     "question": "Which of the following is true about exFAT?",
     "topic": "File Systems",
-    "answer": ["It is designed for flash drives and high-capacity SD cards"],
+    "answers": ["It is designed for flash drives and high-capacity SD cards"],
     "hint": "exFAT is used in devices that require large file support and are based on flash memory.",
     "type": "multiple-single",
     "options": [
@@ -374,7 +374,7 @@
     "questionNumber": 40,
     "question": "What is the main disadvantage of using FAT for modern file systems?",
     "topic": "File Systems",
-    "answer": ["Lack of support for advanced features like file encryption"],
+    "answers": ["Lack of support for advanced features like file encryption"],
     "hint": "FAT does not support features like encryption or access control.",
     "type": "single"
   }

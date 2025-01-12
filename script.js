@@ -2,20 +2,40 @@ let questions = [];
 let currentIndex = 0;
 let score = 0;
 let results = [];
+let answerStats = {};
 
 // Load questions from JSON file
 fetch("questions.json")
   .then((response) => response.json())
   .then((data) => {
     questions = data;
-    shuffleQuestions();
+    initializeAnswerStats();
+    filterAndSortQuestions();
     loadQuestion();
   })
   .catch((error) => console.error("Error loading questions:", error));
 
-// Shuffle questions for randomness
-function shuffleQuestions() {
-  questions.sort(() => Math.random() - 0.5);
+// Initialize answer statistics
+function initializeAnswerStats() {
+  questions.forEach((question) => {
+    answerStats[question.nr] = { correct: 0, incorrect: 0 };
+  });
+}
+
+// Filter and sort questions
+function filterAndSortQuestions() {
+  questions.sort((a, b) => {
+    const aCorrect = answerStats[a.nr].correct;
+    const bCorrect = answerStats[b.nr].correct;
+    return aCorrect - bCorrect;
+  });
+
+  const minCorrect = answerStats[questions[0].nr].correct;
+  questions = questions.filter(
+    (q) => answerStats[q.nr].correct <= minCorrect + 3
+  );
+
+  questions = questions.slice(0, 20);
 }
 
 // Load current question
@@ -102,18 +122,26 @@ function submitAnswer() {
       : 0;
 
   results.push({
-    questionNumber: question.questionNumber,
+    nr: question.nr,
     correct,
     partialScore,
   });
 
   score += partialScore;
 
+  // Update answer statistics
+  if (correct) {
+    answerStats[question.nr].correct++;
+  } else {
+    answerStats[question.nr].incorrect++;
+  }
+
   currentIndex++;
   if (currentIndex < questions.length) {
     loadQuestion();
   } else {
     showResults();
+    saveAnswerStats();
   }
 }
 
@@ -142,6 +170,19 @@ function showResults() {
   }`;
 }
 
+// Save answer statistics to a file
+function saveAnswerStats() {
+  const statsBlob = new Blob([JSON.stringify(answerStats, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(statsBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "answerStats.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 // Toggle dark mode
 document.body.classList.toggle(
   "dark-mode",
@@ -151,7 +192,7 @@ document.body.classList.toggle(
 function skipQuestion() {
   // Set the current question's score to 0
   results.push({
-    questionNumber: questions[currentIndex].questionNumber,
+    nr: questions[currentIndex].nr,
     correct: false,
     partialScore: 0,
   });
