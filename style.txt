@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+:root {
+    --bg-color: white;
+    --text-color: black;
+}
+
+.dark-mode {
+    --bg-color: black;
+    --text-color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+#question-container {
+    text-align: center;
+}
+
+#question {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#options button {
+    display: block;
+    margin: 0.5rem auto;
+}
+
+#hint {
+    margin-top: 1rem;
+    font-style: italic;
+}
