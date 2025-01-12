@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+:root {
+    --bg-color: white;
+    --text-color: black;
+}
+
+.dark-mode {
+    --bg-color: rgb(74, 74, 74);
+    --text-color: rgb(255, 255, 255);
+}
+
+.hidden {
+    display: none;
+}
+
+#question-container {
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#question {
+    font-size: 2rem;
+    margin-top: 1rem;
+}
+
+#options {
+    text-align: left;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#options label {
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+#options input[type="text"] {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    width: 120%;
+    height: 2rem;
+    font-size: 1.5rem;
+}
+
+#options input[type="checkbox"],
+#options input[type="radio"] {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#hint {
+    margin-top: 1rem;
+    font-style: italic;
+}
+
+#buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#reveal-hint,
+#submit-answer {
+    font-size: 200%;
+    margin: 1rem;
+}
+
+#results-container h1 {
+    margin-top: 0;
+}

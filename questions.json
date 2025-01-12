@@ -1,0 +1,28 @@
+[
+  {
+    "questionNumber": 1,
+    "question": "What is the capital of France?",
+    "topic": "Geography",
+    "answer": ["Paris"],
+    "hint": "It's also known as the City of Light.",
+    "type": "single"
+  },
+  {
+    "questionNumber": 2,
+    "question": "Select the primary colors.",
+    "topic": "Art",
+    "answer": ["Red", "Blue", "Yellow"],
+    "hint": "There are three primary colors.",
+    "type": "multiple",
+    "options": ["Red", "Blue", "Green", "Yellow"]
+  },
+  {
+    "questionNumber": 3,
+    "question": "Which planet is known as the Red Planet?",
+    "topic": "Astronomy",
+    "answer": ["Mars"],
+    "hint": "It's the fourth planet from the Sun.",
+    "type": "multiple-single",
+    "options": ["Earth", "Mars", "Jupiter", "Saturn"]
+  }
+]
