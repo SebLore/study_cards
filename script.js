@@ -22,6 +22,7 @@ function shuffleQuestions() {
 function loadQuestion() {
   const container = document.getElementById("question-container");
   const questionElement = document.getElementById("question");
+  const topicElement = document.getElementById("topic");
   const optionsElement = document.getElementById("options");
   const hintElement = document.getElementById("hint");
   const question = questions[currentIndex];
@@ -30,6 +31,7 @@ function loadQuestion() {
   document.getElementById("results-container").classList.add("hidden");
 
   questionElement.textContent = question.question;
+  topicElement.textContent = question.topic;
   hintElement.textContent = question.hint;
   hintElement.classList.add("hidden");
 
@@ -91,13 +93,21 @@ function submitAnswer() {
       ? question.answer.includes(userAnswer)
       : question.answer.includes(userAnswer);
 
-  results.push({ questionNumber: question.questionNumber, correct });
+  const partialScore =
+    question.type === "multiple"
+      ? userAnswer.filter((ans) => question.answer.includes(ans)).length /
+        question.answer.length
+      : correct
+      ? 1
+      : 0;
 
-  score += correct
-    ? question.type === "multiple"
-      ? 1 / question.answer.length
-      : 1
-    : 0;
+  results.push({
+    questionNumber: question.questionNumber,
+    correct,
+    partialScore,
+  });
+
+  score += partialScore;
 
   currentIndex++;
   if (currentIndex < questions.length) {
@@ -118,23 +128,18 @@ function showResults() {
   document.getElementById("buttons-container").classList.add("hidden");
 
   resultsList.innerHTML = results
-    .sort((a, b) => a.questionNumber - b.questionNumber)
-    .map((result) => {
-      const question = questions.find(
-        (q) => q.questionNumber === result.questionNumber
-      );
-      const score = result.correct
-        ? question.type === "multiple"
-          ? 1 / question.answer.length
-          : 1
-        : 0;
-      return `<li>Q${result.questionNumber}: ${score.toFixed(2)}/1 ${
-        result.correct ? "✔️" : "❌"
+    .map((result, index) => {
+      return `<li>Q${index + 1}: ${result.partialScore.toFixed(2)}/1 ${
+        result.correct
+          ? '<span style="color: green;">✓</span>'
+          : '<span style="color: red;">✗</span>'
       }</li>`;
     })
     .join("");
 
-  finalScore.textContent = `Final Score: ${score.toFixed(2)}`;
+  finalScore.textContent = `Final Score: ${score.toFixed(2)}/${
+    questions.length
+  }`;
 }
 
 // Toggle dark mode
@@ -142,3 +147,31 @@ document.body.classList.toggle(
   "dark-mode",
   window.matchMedia("(prefers-color-scheme: dark)").matches
 );
+
+function skipQuestion() {
+  // Set the current question's score to 0
+  results.push({
+    questionNumber: questions[currentIndex].questionNumber,
+    correct: false,
+    partialScore: 0,
+  });
+
+  currentIndex++;
+  if (currentIndex < questions.length) {
+    loadQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function loadNextQuestion() {
+    // Implement the logic to load the next question
+    // This is a placeholder function, you need to implement the actual logic
+    console.log("Loading next question");
+    // Example: Update the question, topic, options, and reset the hint
+    document.getElementById('question').innerText = "Next question text";
+    document.getElementById('topic').innerText = "Next topic";
+    document.getElementById('options').innerHTML = ""; // Update with new options
+    document.getElementById('hint').classList.add('hidden');
+    document.getElementById('buttons-container').classList.remove('hidden');
+}

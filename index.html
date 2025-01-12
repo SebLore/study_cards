@@ -11,14 +11,18 @@
     <div id="app">
       <div id="question-container">
         <h1 id="question"></h1>
+        <h3 id="topic"></h3>
         <div id="options"></div>
         <div id="hint" class="hidden"></div>
-      </div>
-      <div id="buttons-container">
-        <button id="reveal-hint" onclick="showHint()">Show Hint</button>
-        <button id="submit-answer" onclick="submitAnswer()">
-          Submit Answer
-        </button>
+        <div id="buttons-container">
+          <button id="reveal-hint" onclick="showHint()">Show Hint</button>
+          <button id="submit-answer" onclick="submitAnswer()">
+            Submit Answer
+          </button>
+          <button id="skip-question" onclick="skipQuestion()">
+            Skip Question
+          </button>
+        </div>
       </div>
       <div id="results-container" class="hidden">
         <h1>Results</h1>
