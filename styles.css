@@ -1,17 +1,30 @@
+:root {
+    --bg-color: white;
+    --box-color: rgb(96, 96, 96);
+    --text-color: black;
+    --input-text-size: 1rem;
+    --placeholder-color: rgb(63, 62, 62);
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, sans-serif;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: var(--bg-color);
     color: var(--text-color);
 }
 
-:root {
-    --bg-color: white;
-    --text-color: black;
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+::placeholder {
+    color: var(--placeholder-color);
+    font-size: var(--input-text-size);
 }
 
 .dark-mode {
@@ -19,46 +32,77 @@ body {
     --text-color: rgb(255, 255, 255);
 }
 
+.box {
+    border: 1px solid black;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: var(--box-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 .hidden {
     display: none;
+
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #app {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    width: 100%;
     align-items: center;
+    width: 100%;
     max-width: 800px;
-    justify-content: space-between;
-    /*margin: 0 auto;*/
     padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--box-color);
+    border-radius: 10px;
 }
 
 #question-container {
-    text-align: center;
     width: 100%;
-    flex-grow: 1;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px;
+    align-items: flex-start;
 }
 
 #question {
     font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 20px;
-    margin-top: 4rem;
+    margin-left: 20px;
 }
 
 #topic {
     font-size: 0.8rem;
-    margin-top: 1rem;
-    margin-bottom: 40px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }
 
-#options {
+#hint {
+    display: flex;
+    opacity: 0;
+    text-align: left;
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-left: 20px;
+}
+
+#option-container {
     text-align: left;
     margin: 0 auto;
     flex-grow: 1;
@@ -68,21 +112,27 @@ body {
     margin-bottom: 40px;
 }
 
+#options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px;
+}
+
 #options label {
     display: block;
     margin: 0.5rem 0;
     font-size: 1.5rem;
-    text-align: left;
 }
 
-#options input[type="text"] {
-    text-align: left;
-    align-self: center;
-    display: block;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    width: 200px;
-    height: 20px;
+
+#options input[type="text"]::placeholder {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
     font-size: 1rem;
 }
 
@@ -95,6 +145,7 @@ body {
 #hint {
     margin-top: 1rem;
     font-style: italic;
+    margin-left: 20px;
 }
 
 #buttons-container {
@@ -102,23 +153,34 @@ body {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20rem;
+    margin-top: 20px;
     width: 100%;
 }
 
 #reveal-hint,
-#submit-answer {
-    font-size: 120%;
+#submit-answer,
+#skip-question {
+    font-size: 1rem;
     padding: 0.5rem 1rem;
     margin: 1rem;
 }
 
 #results-container {
-    text-align: left;
     width: 100%;
-    flex-grow: 1;
+    display: hidden;
     flex-direction: column;
-    justify-content: center;
-    clear: both;
+    align-items: flex-start;
     margin-top: 20px;
+}
+
+#results {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 20px;
+}
+
+#final-score {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    margin-left: 20px;
 }
