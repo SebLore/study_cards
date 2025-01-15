@@ -45,14 +45,14 @@ namespace question_parser
 
         bool RemoveQuestionFromTopic(const std::string &topic, size_t index);
 
-        std::unordered_map<std::string, size_t> GetTopics() const { return m_topics; }
-        std::vector<Question> & GetQuestions(const std::string &topic);
-        std::vector<std::vector<Question>> GetAllQuestions() const { return m_questions; }
+        const std::unordered_map<std::string, size_t> &GetTopics() const;
+        const std::vector<Question> &GetQuestions(const std::string &topic)const;
+        const std::vector<std::vector<Question>> &GetAllQuestions() const;
 
-    private:
         std::string FormatQuestion(const Question &question) const;
         std::string FormatTopic(const std::string &topic) const;
 
+    private:
         std::unordered_map<std::string, size_t> m_topics;
         std::vector<std::vector<Question>> m_questions; // questions for each topic
     };

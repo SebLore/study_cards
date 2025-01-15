@@ -7,14 +7,19 @@
 void question_parser::QuestionParserGUI::Run()
 {
     // run until exit
-    bool done = false;
-    std::string input;
-
     system("cls");
     std::cout << "Welcome to the question parser.\n"
               << std::endl;
-    std::cout << "Available commands are <topic>, <exit>, <print>, and <help>.\n"
-              << std::endl;
+    MainMenu();
+}
+
+void question_parser::QuestionParserGUI::MainMenu()
+{
+    bool done = false;
+
+    std::string input;
+    
+
     while (!done)
     {
         input.clear();
@@ -28,19 +33,12 @@ void question_parser::QuestionParserGUI::Run()
         std::string command;
         iss >> command;
 
-        if (command == "topic")
+        if (command == commands[0])
         {
             std::string topic;
             iss >> topic;
 
-            if (!m_qp.AddTopic(topic))
-            {
-                std::cerr << "Failed to add topic." << std::endl;
-                continue;
-            }
 
-            // take questions
-            TakeQuestions(topic);
         }
         else if (command == "exit")
         {
@@ -54,11 +52,24 @@ void question_parser::QuestionParserGUI::Run()
         {
             std::string topic;
             iss >> topic;
-            PrintTopic(topic);
+            if(topic.empty())
+            {
+                std::cout << "Enter topic name to print: ";
+                topic = TakeInputStr();
+            }
+            PrintTopicQuestions(topic);
+        }
+        else if (command == "print_all")
+        {
+            PrintAllQuestions();
+        }
+        else if (command == "print_topics")
+        {
+            PrintAllTopics();
         }
         else if (command == "help")
         {
-            Help();
+            PrintHelp();
         }
         else
         {
@@ -104,10 +115,15 @@ bool question_parser::QuestionParserGUI::SaveToJSON() const
 
     // write to file
     file << "[\n";
-    for(const auto &topics : m_qp.GetTopics());
-    for (const auto &topic : m_qp.GetQuestions())
-    {
-        for (const auto &question : topic)
+    for (const auto &[topic, index] : m_qp.GetTopics())
+    {  
+        if(index > m_qp.GetQuestions(topic).size())
+        {
+            std::cout << "Topic index went out of bounds: " << topic << std::endl;
+            continue;
+            // go to next iteration
+        }
+        for (const auto &question : m_qp.GetQuestions(topic))
         {
             file << "  {\n";
             file << "  \"question\": \"" << question.question << "\",\n";
@@ -165,28 +181,81 @@ bool question_parser::QuestionParserGUI::SaveToJSON() const
     return true;
 }
 
-void question_parser::QuestionParserGUI::PrintTopic(const std::string &name) const
+void question_parser::QuestionParserGUI::HandleTopic(const std::string &topic)
 {
-    auto it = m_topics.find(name);
-    if (it == m_topics.end())
+    if (!m_qp.AddTopic(topic))
     {
-        std::cerr << "Topic not found." << std::endl;
+        std::cerr << "Failed to add topic." << std::endl;
         return;
     }
 
-    std::cout << "Questions for topic: " << name << std::endl;
-    for (const auto &question : m_qp.GetQuestions().at(it->second))
+    // take questions
+    TakeQuestions(topic);
+}
+
+void question_parser::QuestionParserGUI::PrintTopicQuestions(const std::string &name) const
+{
+    std::string str = m_qp.FormatTopic(name);
+
+    if(str.empty())
     {
-        std::cout << m_qp.FormatQuestion(question) << std::endl;
+        std::cout << "Cannot print topic: topic not found." << std::endl;
+        return;
     }
-    std::cout << std::endl;
+
+    std::cout << "topic: " << name << std::endl;
+    std::cout << str << std::endl;
+}
+
+void question_parser::QuestionParserGUI::PrintAllTopics() const
+{
+    std::cout << "All topics:" << std::endl;
+    for (const auto &topic : m_qp.GetTopics())
+    {
+        std::cout << "topic: " << topic.first << std::endl;
+    }
+}
+
+void question_parser::QuestionParserGUI::PrintAllQuestions() const
+{
+    std::cout << "All questions:" << std::endl;
+    for (const auto &topic : m_qp.GetTopics())
+    {
+        std::cout << "Topic: " << topic.first << std::endl;
+        for (const auto &question : m_qp.GetQuestions(topic.first))
+            std::cout << " " << m_qp.FormatQuestion(question) << std::endl;
+
+        std::endl(std::cout);
+    }
 }
 
 std::string question_parser::QuestionParserGUI::TakeInputStr()
 {
     std::string input;
     std::getline(std::cin, input);
-    return std::move(input);
+    return input;
+}
+
+void question_parser::QuestionParserGUI::PrintHelp() const
+{
+    std::cout << "Available commands are <topic>, <exit>, <print>, and <help>." << std::endl;
+    std::cout << "  topic <name> - add a new topic and take questions" << std::endl;
+    std::cout << "  print <name> - print questions for a topic" << std::endl;
+    std::cout << "  help - print this help message" << std::endl;
+    std::cout << "  exit - save questions and exit" << std::endl;
+    // to add
+    // std::cout << "  load <filename> - load topics and questions from file" << std::endl;
+    // std::cout << "  save <filename> - save topics and questions to file" << std::endl;
+}
+
+std::string question_parser::QuestionParserGUI::GetFormattedTopic(const std::string &topic) const
+{
+    return m_qp.FormatTopic(topic);
+}
+
+std::string question_parser::QuestionParserGUI::GetFormattedQuestion(const std::string &topic, size_t index) const
+{
+    return m_qp.FormatQuestion(m_qp.GetQuestions(topic).at(index));
 }
 
 void question_parser::QuestionParserGUI::TakeQuestions(const std::string &topic)
@@ -328,8 +397,17 @@ void question_parser::QuestionParserGUI::TakeQuestions(const std::string &topic)
 
             // FINALLY
             // add question to topic
-            AddQuestion(topic, std::move(q));
+            m_qp.AddQuestion(topic, std::move(q));
         }
     }
     system("cls");
+}
+
+question_parser::QuestionParserGUI::PrintCommands() const
+{
+    std::cout << "Available commands: "
+    for (const auto &command : commands)
+    {
+        std::cout << "<" << command.first << ">" << std::endl;
+    }
 }

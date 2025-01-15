@@ -14,6 +14,8 @@
 #define PRINT_DEBUG_ERR(x)
 #endif
 
+// run main menu loop
+
 bool question_parser::QuestionParser::LoadFromFile(const std::string &path)
 {
     if (path.substr(path.find_last_of(".") + 1) != "json")
@@ -21,6 +23,7 @@ bool question_parser::QuestionParser::LoadFromFile(const std::string &path)
         PRINT_DEBUG_ERR("Invalid file format. Must be .json");
         return false;
     }
+
     std::ifstream file(path);
     if (!file.is_open())
     {
@@ -34,19 +37,15 @@ bool question_parser::QuestionParser::LoadFromFile(const std::string &path)
     contents.resize(file.tellg());
     file.seekg(0, std::ios::beg);
     file.read(&contents[0], contents.size());
-
     file.close();
 
     return true;
 }
 
-void question_parser::QuestionParser::TakeQuestions(std::string &topic)
-{
-}
-
 void question_parser::QuestionParser::AddQuestion(const std::string &topic, Question &&question)
 {
     m_questions[m_topics[topic]].push_back(std::move(question));
+    
     PRINT_DEBUG(std::string("Question added to topic: " + topic));
 }
 
@@ -103,7 +102,12 @@ bool question_parser::QuestionParser::RemoveTopic(const std::string &topic)
     return true;
 }
 
-std::vector<question_parser::Question> &question_parser::QuestionParser::GetQuestions(const std::string &topic)
+const std::unordered_map<std::string, size_t> & question_parser::QuestionParser::GetTopics() const
+{
+    return m_topics;
+}
+
+const std::vector<question_parser::Question> &question_parser::QuestionParser::GetQuestions(const std::string &topic) const
 {
     auto it = m_topics.find(topic);
     if (it == m_topics.end())
@@ -119,6 +123,11 @@ std::vector<question_parser::Question> &question_parser::QuestionParser::GetQues
     }
 
     return m_questions.at(m_topics.at(it->first));
+}
+
+const std::vector<std::vector<question_parser::Question>> &question_parser::QuestionParser::GetAllQuestions() const
+{
+    return m_questions;
 }
 
 // takes a question struct and outputs a formatted string with information about the question
@@ -158,9 +167,19 @@ std::string question_parser::QuestionParser::FormatQuestion(const Question &ques
 
 std::string question_parser::QuestionParser::FormatTopic(const std::string &topic) const
 {
-    std::string fmt_topic;
+    if (m_topics.find(topic) == m_topics.end())
+    {
+        PRINT_DEBUG_ERR("Topic not found.");
+        return "";
+    }
 
-    std::istringstream iss(fmt_topic);
+    std::ostringstream oss{};
+    for (const auto &question : m_questions[m_topics.at(topic)])
+    {
+        oss << FormatQuestion(question);
+        oss << "\n";
+    }
+    return oss.str();
 }
 
 // save all questions in memory to .json file

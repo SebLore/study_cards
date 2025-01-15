@@ -5,17 +5,15 @@
 #define __DEBUG_ENABLED__
 #endif
 
-
-
-
-#include "question_parser.h"
+#include "qp_gui.h"
 #include <memory>
+
+#define questions_filepath "questions.json"
 
 int main()
 {
-    // heap allocate parser
-    std::unique_ptr<question_parser::QuestionParser> qp = std::make_unique<question_parser::QuestionParser>();
-    
-    qp->Run();
+    std::unique_ptr<question_parser::QuestionParserGUI> qp_gui = std::make_unique<question_parser::QuestionParserGUI>();
+    qp_gui->LoadFromFile(questions_filepath);
+    qp_gui->Run();
     return 0;
 }
