@@ -1,0 +1,25 @@
+
+Topic: Concepts
+Q: The Operating System (OS) is sometimes referred to as an extended machine. What does that mean?
+A: "The OS hides the complexity of the underlying software and hardware through abstraction, providing an accessible, nice looking interface for the user to engage with."
+H: "What does an OS do? Why do we use it to interface with software?"
+O: "The OS is what enables the computer to function with instructions and other things. Without an OS, the computer cannot do anything."
+O: The OS is just an interface for the kernel-mode, providing a human-readable way of interacting directly with the hardware of the machine.
+O: "Without an OS, the computer could not save files or store data after shutting down. Being able to 'remember' things like this is what maked it an 'extended machine'.
+
+Topic: Process Management
+Q: Which of the following commands would be used to create a new process that is an exact copy of the current running program with its own place in memory?
+A: "fork()"
+H: "When a river splits into multiples, that is called a ____"
+O: "split()"
+O: "copy_process()"
+O: "
+
+Topic: Processes
+Q: Which of the following is NOT a method for synchronizing processes/threads?
+O: "Preemption"
+
+Topic: Process Management
+Q: What is the purpose of preempting?
+A: To interrupt a process in some way, for example because a higher priority process has arrived in the scheduler or because the current process is holding some resource in a deadlock.
+H: It’s not ’pre’ anything, it happens as a result of something occurring.
