@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag and Drop</title>
+    <style>
+      .container {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+        margin-top: 20px;
+      }
+      .card,
+      .slot {
+        width: 100px;
+        height: 150px;
+        border: 2px dashed #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        cursor: grab;
+      }
+      .card {
+        background-color: lightblue;
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Drag and Drop Cards</h2>
+    <div class="container" id="cards">
+      <div class="card" draggable="true" id="card1">Card 1</div>
+      <div class="card" draggable="true" id="card2">Card 2</div>
+      <div class="card" draggable="true" id="card3">Card 3</div>
+      <div class="card" draggable="true" id="card4">Card 4</div>
+    </div>
+    <div class="container" id="slots">
+      <div class="slot" id="slot1"></div>
+      <div class="slot" id="slot2"></div>
+      <div class="slot" id="slot3"></div>
+      <div class="slot" id="slot4"></div>
+    </div>
+
+    <script>
+      const cards = document.querySelectorAll(".card");
+      const slots = document.querySelectorAll(".slot");
+
+      cards.forEach((card) => {
+        card.addEventListener("dragstart", (e) => {
+          e.dataTransfer.setData("text/plain", card.id);
+        });
+      });
+
+      slots.forEach((slot) => {
+        slot.addEventListener("dragover", (e) => {
+          e.preventDefault();
+        });
+
+        slot.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const cardId = e.dataTransfer.getData("text/plain");
+          const draggedCard = document.getElementById(cardId);
+          if (!slot.hasChildNodes()) {
+            slot.appendChild(draggedCard);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
