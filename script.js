@@ -3,225 +3,285 @@ let currentIndex = 0;
 let score = 0;
 let results = [];
 let answerStats = {};
+const questionsList = [];
 
-// Load questions from JSON file
-fetch("questions.json")
-  .then((response) => response.json())
-  .then((data) => {
-    questions = data;
-    initializeAnswerStats();
-    filterAndSortQuestions();
-    loadQuestion();
-  })
-  .catch((error) => console.error("Error loading questions:", error));
+/**
+ * This function is called when the page is loaded and is responsible for initializing the application.
+ * 
+ * It loads the course data from the server, populates the course picker, and sets up event listeners.
+ */
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const data = await loadData();
+    if (!data) throw new Error("Failed to load data");
 
-// Initialize answer statistics
-function initializeAnswerStats() {
-  questions.forEach((question) => {
-    answerStats[question.nr] = { correct: 0, incorrect: 0 };
-  });
+    console.log("Data loaded:", data);
+    const coursesMap = populateCourseMap(data);
+
+    showSpinner(false);
+    if (!loadSavedSelection(coursesMap)) {
+      showSplashPage();
+    }
+    else {
+      populateCoursePicker(coursesMap);
+    }
+  } catch (error) {
+    console.error("Error during initialization:", error);
+    displayErrorMessage("Failed to load course data. Please try reloading the page.");
+  }
+});
+
+/**
+ * 
+ * @returns {Promise<Object>} The parsed JSON data from the server
+ */
+async function loadData() {
+  try {
+    const response = await fetch("data.json");
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error("Error loading questions:", error);
+    return null;
+  }
 }
 
-// Filter and sort questions
-function filterAndSortQuestions() {
-  questions.sort((a, b) => {
-    const aCorrect = answerStats[a.nr].correct;
-    const bCorrect = answerStats[b.nr].correct;
-    return aCorrect - bCorrect;
-  });
+/**
+ * 
+ * @param {Object} data The parsed JSON data from the server
+ * @returns {Object} A map of courses with their topics and questions
+ * 
+ * Populates a map of courses with their topics and questions from the data. 
+ */
 
-  const minCorrect = answerStats[questions[0].nr].correct;
-  questions = questions.filter(
-    (q) => answerStats[q.nr].correct <= minCorrect + 3
-  );
-
-  questions = questions.slice(0, 20);
+function populateCourseMap(data) {
+  return data.courses.reduce((map, course) => {
+    map[course.id] = {
+      name: course.name,
+      topics: course.topics.reduce((topicMap, topic) => {
+        topicMap[topic.id] = {
+          name: topic.name,
+          questions: Object.fromEntries(topic.questions.map(q => [q.id, q]))
+        };
+        return topicMap;
+      }, {})
+    };
+    return map;
+  }, {});
 }
 
-// Load current question
+/**
+ * 
+ * @param {Object} coursesMap A map of courses with their topics and questions
+ * 
+ * Populates the course picker with the courses from the coursesMap and sets up event listeners.
+ *  
+ * The course picker should be populated with the course id and name, e.g. "CSC101 - Introduction to Programming".
+ * 
+ * When a course is selected, the topic picker should be populated with the topics from the selected course.
+ * 
+ * When a topic is selected, the questions list should be updated with the questions from the selected topic.
+ * 
+ * When the start button is clicked, the course and topics are locked in and the first question should be loaded.
+ * 
+ */
+function populateCoursePicker(coursesMap) {
+  try {
+    const coursePicker = document.getElementById("course-picker");
+    const topicPicker = document.getElementById("topic-picker");
+    const startButton = document.getElementById("course-picker-btn");
+
+    Object.entries(coursesMap).forEach(([courseId, course]) => {
+      const option = new Option(`${courseId} - ${course.name}`, courseId);
+      coursePicker.appendChild(option);
+    });
+
+    coursePicker.addEventListener("change", () => updateTopicPicker(coursePicker.value, coursesMap, topicPicker));
+    topicPicker.addEventListener("change", () => updateQuestionsList(coursePicker.value, topicPicker.value, coursesMap));
+    startButton.addEventListener("click", () => {
+      loadQuestion();
+      showSpinner(false);
+      showContent();
+    });
+  } catch (error) {
+    console.error("Error populating course picker:", error);
+  }
+}
+
+/**
+ * 
+ * @param {string} courseId The selected course id, i.e. DV1506 or MA1444 
+ * @param {Object} coursesMap A map of courses with their topics and questions
+ * @param {HTMLSelectElement} topicPicker The topic select element in the DOM
+ * @returns 
+ */
+function updateTopicPicker(courseId, coursesMap, topicPicker) {
+  const course = coursesMap[courseId];
+  if (!course) return;
+
+  topicPicker.innerHTML = "";
+  topicPicker.appendChild(new Option("All Topics", "all"));
+
+  Object.entries(course.topics).forEach(([topicId, topic]) => {
+    topicPicker.appendChild(new Option(topic.name, topicId));
+  });
+
+  localStorage.setItem("selectedCourse", courseId);
+}
+
+/**
+ * 
+ * @param {string} courseId The selected course id, i.e. DV1506 or MA1444 
+ * @param {Object} coursesMap A map of courses with their topics and questions
+ * @param {HTMLSelectElement} topicPicker The topic select element in the DOM
+ * @returns 
+ */
+function updateQuestionsList(courseId, topicId, coursesMap) {
+  const course = coursesMap[courseId];
+  if (!course) return;
+
+  questionsList.length = 0;
+
+  if (topicId === "all") {
+    Object.values(course.topics).forEach(topic => {
+      questionsList.push(...Object.values(topic.questions));
+    });
+  } else {
+    questionsList.push(...Object.values(course.topics[topicId].questions));
+  }
+
+  localStorage.setItem("selectedTopic", topicId);
+}
+
+/**
+ * 
+ * @param {Object} coursesMap A map of courses with their topics and questions
+ * 
+ * Checks if there is a saved course and topic in localStorage and loads the saved selection. 
+ * @returns {boolean} True if a saved selection was loaded, false otherwise
+ */
+function loadSavedSelection(coursesMap) {
+  const savedCourse = localStorage.getItem("selectedCourse");
+  const savedTopic = localStorage.getItem("selectedTopic");
+  if (!savedCourse || !coursesMap[savedCourse]) {
+    return false;
+  }
+
+  document.getElementById("course-picker").value = savedCourse;
+  updateTopicPicker(savedCourse, coursesMap, document.getElementById("topic-picker"));
+  document.getElementById("topic-picker").value = savedTopic || "all";
+
+  setupQuestions();
+
+  showSplashPage(false);
+  showSpinner(false);
+  showContent();
+
+  return true;
+}
+
+/**
+ *  
+ * 
+ * Loads the current question into the DOM and displays it to the user.
+ * 
+ * The question text should be displayed in the question element.
+ * 
+ * The hint text should be displayed in the hint element.
+ * 
+ * The options should be displayed in the options element as div elements with the class "option".
+ * 
+ * When an option is clicked, the selectAnswer function should be called with the index of the selected answer.
+ * 
+ * The selected option should have the class "selected" added to it.
+ * 
+ * The question type determines how the options are displayed:
+ * 
+ * - "multiple-choice": Display the options as div elements with the class "option".
+ * - "true-false": Display two div elements with the text "True" and "False".
+ * - "written": Display a text input element for the user to type in their answer.
+ * - "short-answer": Display a text input element for the user to type in their answer.
+ * - "multiple-select": Display the options as div elements with the class "option".
+ * - "matching": Display the options as div elements with the class "option".
+ * 
+ */
+
 function loadQuestion() {
-  const container = document.getElementById("question-container");
-  const questionElement = document.getElementById("question");
-  const topicElement = document.getElementById("topic");
-  const optionsElement = document.getElementById("options");
-  const hintElement = document.getElementById("hint");
-  const question = questions[currentIndex];
+  try {
+    const question = questionsList[currentIndex];
+    document.getElementById("question").textContent = question.text;
+    document.getElementById("hint").textContent = question.hint;
+    document.getElementById("hint").classList.add("hidden");
 
-  container.classList.remove("hidden");
-  document.getElementById("results-container").classList.add("hidden");
+    const optionsElement = document.getElementById("options");
+    optionsElement.innerHTML = "";
 
-  questionElement.textContent = question.question;
-  topicElement.textContent = question.topic;
-  hintElement.textContent = question.hint;
-  hintElement.classList.add("hidden");
-
-  optionsElement.innerHTML = "";
-
-  if (question.type === "multiple") {
-    question.options.forEach((option) => {
-      const label = document.createElement("label");
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.value = option;
-      label.appendChild(checkbox);
-      label.appendChild(document.createTextNode(option));
-      optionsElement.appendChild(label);
-      optionsElement.appendChild(document.createElement("br"));
-    });
-  } else if (question.type === "multiple-single") {
-    question.options.forEach((option) => {
-      const label = document.createElement("label");
-      const radio = document.createElement("input");
-      radio.type = "radio";
-      radio.name = "single-choice";
-      radio.value = option;
-      label.appendChild(radio);
-      label.appendChild(document.createTextNode(option));
-      optionsElement.appendChild(label);
-      optionsElement.appendChild(document.createElement("br"));
-    });
-  } else {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.id = "user-answer";
-    input.placeholder = "Enter your answer here";
-
-    // key listener
-    input.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        submitAnswer();
-      }
-    });
-
-    optionsElement.appendChild(input);
+    if (question.type === "multiple-choice") {
+      question.answers.forEach((answer, index) => {
+        const option = document.createElement("div");
+        option.classList.add("option");
+        option.textContent = answer.text;
+        option.onclick = () => selectAnswer(index);
+        optionsElement.appendChild(option);
+      });
+    }
+  } catch (error) {
+    console.error("Error loading question:", error);
   }
 }
 
-// Show the hint
-function showHint() {
-  document.getElementById("hint").style.opacity = 1;
+/**
+ * 
+ * @param {boolean} show Whether to show or hide the splash page
+ */
+function showSplashPage(show = true) {
+  document.getElementById("splash-page").style.display = show ? "flex" : "none";
 }
 
-// Submit the answer
-function submitAnswer() {
-  const question = questions[currentIndex];
-  const userAnswer =
-    question.type === "multiple"
-      ? Array.from(document.querySelectorAll("#options input:checked")).map(
-          (checkbox) => checkbox.value
-        )
-      : question.type === "multiple-single"
-      ? document.querySelector("#options input:checked")?.value
-      : document.getElementById("user-answer").value.trim();
+function showContent(show = true) {
+  document.getElementById("content").style.display = show ? "flex" : "none";
+}
 
-  const correct =
-    question.type === "multiple"
-      ? userAnswer.every((ans) => question.answer.includes(ans)) &&
-        userAnswer.length === question.answer.length
-      : question.type === "multiple-single"
-      ? question.answer.includes(userAnswer)
-      : question.answer.includes(userAnswer);
+function showSpinner(show = true) {
+  document.getElementById("spinner").style.display = show ? "flex" : "none";
+}
 
-  const partialScore =
-    question.type === "multiple"
-      ? userAnswer.filter((ans) => question.answer.includes(ans)).length /
-        question.answer.length
-      : correct
-      ? 1
-      : 0;
+/**
+ * 
+ * @param {string} message The error message to display
+ */
+function displayErrorMessage(message) {
+  const errorMessage = document.createElement("h1");
+  errorMessage.style.color = "red";
+  errorMessage.style.textAlign = "center";
+  errorMessage.textContent = message;
+  document.body.appendChild(errorMessage);
+}
 
-  results.push({
-    nr: question.nr,
-    correct,
-    partialScore,
+/**
+ * 
+ * @param {number} index The index of the selected answer 
+ */
+function selectAnswer(index) {
+  document.querySelectorAll(".option").forEach((option, i) => {
+    option.classList.toggle("selected", i === index);
   });
+}
 
-  score += partialScore;
-
-  // Update answer statistics
-  if (correct) {
-    answerStats[question.nr].correct++;
+/**
+ * Loads n number of all questions from the selected course and topic into the questions array, ready 
+ * to be deployed one by one to the user.
+ */
+function setupQuestions(n = 0) {
+  if (n === 0) {
+    questions = questionsList;
   } else {
-    answerStats[question.nr].incorrect++;
+    questions = questionsList.slice(0, n);
   }
+  currentIndex = 0;
+  score = 0;
+  results = [];
+  answerStats = {};
 
-  currentIndex++;
-  if (currentIndex < questions.length) {
-    loadQuestion();
-  } else {
-    showResults();
-    saveAnswerStats();
-  }
-}
-
-// Show results
-function showResults() {
-  const container = document.getElementById("results-container");
-  const resultsList = document.getElementById("results");
-  const finalScore = document.getElementById("final-score");
-
-  container.classList.remove("hidden");
-  document.getElementById("question-container").classList.add("hidden");
-  document.getElementById("buttons-container").classList.add("hidden");
-
-  resultsList.innerHTML = results
-    .map((result, index) => {
-      return `<li>Q${index + 1}: ${result.partialScore.toFixed(2)}/1 ${
-        result.correct
-          ? '<span style="color: green;">✓</span>'
-          : '<span style="color: red;">✗</span>'
-      }</li>`;
-    })
-    .join("");
-
-  finalScore.textContent = `Final Score: ${score.toFixed(2)}/${
-    questions.length
-  }`;
-}
-
-// Save answer statistics to a file
-function saveAnswerStats() {
-  const statsBlob = new Blob([JSON.stringify(answerStats, null, 2)], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(statsBlob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "answerStats.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Toggle dark mode
-document.body.classList.toggle(
-  "dark-mode",
-  window.matchMedia("(prefers-color-scheme: dark)").matches
-);
-
-function skipQuestion() {
-  // Set the current question's score to 0
-  results.push({
-    nr: questions[currentIndex].nr,
-    correct: false,
-    partialScore: 0,
-  });
-
-  currentIndex++;
-  if (currentIndex < questions.length) {
-    loadQuestion();
-  } else {
-    showResults();
-  }
-}
-
-function loadNextQuestion() {
-  // Implement the logic to load the next question
-  // This is a placeholder function, you need to implement the actual logic
-  console.log("Loading next question");
-  // Example: Update the question, topic, options, and reset the hint
-  document.getElementById("question").innerText = "Next question text";
-  document.getElementById("topic").innerText = "Next topic";
-  document.getElementById("options").innerHTML = ""; // Update with new options
-  document.getElementById("hint").classList.add("hidden");
-  document.getElementById("buttons-container").classList.remove("hidden");
+  questions.forEach(() => results.push(null));
 }

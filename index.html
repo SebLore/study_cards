@@ -1,35 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Study Cards</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
 
-  <body>
-    <div id="app">  
-      <div id="question-container", class="box">
-        <h1 id="question"></h1>
-        <h3 id="topic"></h3>
-        <div id="hint"></div>
-        <div id="options"></div>
-        <div id="buttons-container">
-          <button id="reveal-hint" onclick="showHint()">Show Hint</button>
-          <button id="submit-answer" onclick="submitAnswer()">
-            Submit Answer
-          </button>
-          <button id="skip-question" onclick="skipQuestion()">
-            Skip Question
-          </button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study Cards</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="spinner">
+    <h1>Loading...</h1>
+    <div class="spinner">
+    </div>
+  </div>
+  <div id="splash-page" class="splash-page">
+    <div id="splash-content" class="space-between left-align">
+      <h1 id="title">Study Cards</h2>
+        <div id="course-selector" class="selector">
+          <select aria-label="Select a course" id="course-picker" class="select">
+            <option value="null">Select a course
+            </option>
+          </select>
+        </div>
+        <div id="topic-selector" class="selector">
+          <select aria-label="Pick a topic" id="topic-picker" class="select"></select>
+        </div>
+        <button id="course-picker-btn" type="submit" style="align-self:center; display: none">Select</button>
+    </div>
+  </div>
+  <div id=content class="container">
+    <div class="navbar fixed-top">
+      <div class="container">
+        <div class="questions-nav" id="questions-nav">
+          <div id="questions-nav-open">
+            <div id="header-info">
+              <h1 id="header-course">Course </h1>
+              <h3 id="header-topic">Topic</h3>
+            </div>
+            <div class="buttons-container">
+              <button id="prev-btn" onclick="showPrevQuestion()">
+                Previous Question
+              </button>
+              <button id="next-btn" onclick="showNextQuestion()">
+                Next Question
+              </button>
+            </div>
+            <div class="nav-toggle" id="nav-close">&#8593;</div>
+          </div>
+          <div class="question-grid" id="q-grid">
+          </div>
         </div>
       </div>
-      <div id="results-container" class="hidden">
-        <h1>Results</h1>
-        <ul id="results"></ul>
-        <p id="final-score"></p>
+      <div class="nav-toggle" id="nav-open">&#8595;</div>
+    </div>
+    <div class="page">
+      <div class="container">
+        <div id="question-container" class="container simple-border">
+          <h1 id="question"></h1>
+          <div id="hint" class="hint"></div>
+          <div id="options"></div>
+          <div id="buttons-container" class="buttons-container">
+            <button id="reveal-hint" onclick="showHint()">Show Hint</button>
+            <button id="submit-answer" onclick="submitAnswer()">
+              Submit Answer
+            </button>
+            <button id="skip-question" onclick="skipQuestion()">
+              Skip Question
+            </button>
+          </div>
+        </div>
+        <!-- <div id="results-container" class="hidden">
+          <h1>Results</h1>
+          <ul id="results"></ul>
+          <p id="final-score"></p>
+        </div> -->
       </div>
     </div>
-    <script src="script.js"></script>
-  </body>
+  </div>
+  <script src="script.js"></script>
+</body>
+
 </html>
