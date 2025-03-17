@@ -18,7 +18,6 @@ void question_parser::QuestionParserGUI::MainMenu()
     bool done = false;
 
     std::string input;
-    
 
     while (!done)
     {
@@ -37,8 +36,6 @@ void question_parser::QuestionParserGUI::MainMenu()
         {
             std::string topic;
             iss >> topic;
-
-
         }
         else if (command == "exit")
         {
@@ -52,7 +49,7 @@ void question_parser::QuestionParserGUI::MainMenu()
         {
             std::string topic;
             iss >> topic;
-            if(topic.empty())
+            if (topic.empty())
             {
                 std::cout << "Enter topic name to print: ";
                 topic = TakeInputStr();
@@ -116,8 +113,8 @@ bool question_parser::QuestionParserGUI::SaveToJSON() const
     // write to file
     file << "[\n";
     for (const auto &[topic, index] : m_qp.GetTopics())
-    {  
-        if(index > m_qp.GetQuestions(topic).size())
+    {
+        if (index > m_qp.GetQuestions(topic).size())
         {
             std::cout << "Topic index went out of bounds: " << topic << std::endl;
             continue;
@@ -197,7 +194,7 @@ void question_parser::QuestionParserGUI::PrintTopicQuestions(const std::string &
 {
     std::string str = m_qp.FormatTopic(name);
 
-    if(str.empty())
+    if (str.empty())
     {
         std::cout << "Cannot print topic: topic not found." << std::endl;
         return;
@@ -405,8 +402,7 @@ void question_parser::QuestionParserGUI::TakeQuestions(const std::string &topic)
 
 question_parser::QuestionParserGUI::PrintCommands() const
 {
-    std::cout << "Available commands: "
-    for (const auto &command : commands)
+    std::cout << "Available commands: " for (const auto &command : commands)
     {
         std::cout << "<" << command.first << ">" << std::endl;
     }

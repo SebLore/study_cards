@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Cards</title>
+    <style>
+        .question-container {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .options-container {
+            margin-top: 10px;
+        }
+        .hint {
+            color: gray;
+            font-style: italic;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Study Cards</h1>
+    <label for="courseSelect">Choose a Course:</label>
+    <select id="courseSelect" onchange="loadTopics(this.value)">
+        <option>Select a topic</option>
+    </select>
+    <label for="topicSelect">Choose a Topic:</label>
+    <select id="topicSelect" onchange="loadQuestions(this.value)">
+        <option value="">Select a topic</option>
+    </select>
+    <h3 id="progressDisplay">Progress: 0 / 0</h3>
+    <div id="questionContainer"></div>
+
+    <script src="example.js"></script>
+</body>
+</html>

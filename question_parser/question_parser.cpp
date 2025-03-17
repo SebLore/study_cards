@@ -16,7 +16,7 @@
 
 // run main menu loop
 
-bool question_parser::QuestionParser::LoadFromFile(const std::string &path)
+bool question_parser::QuestionParser::LoadFromJSON(const std::string &path)
 {
     if (path.substr(path.find_last_of(".") + 1) != "json")
     {
@@ -42,10 +42,42 @@ bool question_parser::QuestionParser::LoadFromFile(const std::string &path)
     return true;
 }
 
+bool question_parser::QuestionParser::AddCourse(const std::string &id, const std::string &name)
+{
+    if (m_courses.find(id) != m_courses.end())
+    {
+        PRINT_DEBUG_ERR("Course already exists.");
+        return false;
+    }
+    Course newCourse;
+    newCourse.id = id;
+    newCourse.name = name;
+    m_courses[id] = std::move(newCourse);
+
+    return false;
+}
+
+bool question_parser::QuestionParser::RemoveCourse(const std::string &id)
+{
+    auto it = m_courses.find(id);
+    if (it == m_courses.end())
+    {
+        PRINT_DEBUG_ERR("Course not found.");
+        return false;
+    }
+    if (m_currentCourse == &it->second)
+    {
+        m_currentCourse = nullptr;
+    }
+    m_courses.erase(it);
+
+    return true;
+}
+
 void question_parser::QuestionParser::AddQuestion(const std::string &topic, Question &&question)
 {
     m_questions[m_topics[topic]].push_back(std::move(question));
-    
+
     PRINT_DEBUG(std::string("Question added to topic: " + topic));
 }
 
@@ -102,7 +134,7 @@ bool question_parser::QuestionParser::RemoveTopic(const std::string &topic)
     return true;
 }
 
-const std::unordered_map<std::string, size_t> & question_parser::QuestionParser::GetTopics() const
+const std::unordered_map<std::string, size_t> &question_parser::QuestionParser::GetTopics() const
 {
     return m_topics;
 }
@@ -135,7 +167,7 @@ std::string question_parser::QuestionParser::FormatQuestion(const Question &ques
 {
     std::ostringstream oss{};
 
-    oss << "Question: " << question.question << std::endl;
+    oss << "Question: " << question.text << std::endl;
     oss << "Answer(s): ";
     for (const auto &answer : question.answers)
     {
@@ -234,9 +266,8 @@ bool question_parser::QuestionParser::SaveToJSON(const std::string &path) const
         for (const auto &question : m_questions[index])
         {
             file << "{\n";
-            file << "  \"nr\": " << i++ << ",\n";
-            file << "  \"question\": \"" << question.question << "\",\n";
-            file << "  \"topic\": \"" << topic << "\",\n";
+            file << "  \"id\": " << i++ << ",\n";
+            file << "  \"text\": \"" << question.text << "\",\n";
             file << "  \"answers\": ";
             if (question.answers.size() == 1)
                 file << "\"" << question.answers.front() << "\",\n";
@@ -256,11 +287,11 @@ bool question_parser::QuestionParser::SaveToJSON(const std::string &path) const
             // type
             file << "  \"type\": \"";
             if (question.type == MULTIPLE_CHOICE)
-                file << "single";
+                file << "multiple-choice-single-answer";
             else if (question.type == MULTIPLE_ANSWER)
-                file << "multiple";
+                file << "multiple-choice-multiple-answer";
             else if (question.type == TRUE_FALSE)
-                file << "true_false";
+                file << "true-false";
             else if (question.type == SHORT_ANSWER)
                 file << "written";
             else
