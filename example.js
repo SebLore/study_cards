@@ -1,3 +1,4 @@
+// Example courses
 const courses = [
     {
         "id": "AA1111",
@@ -40,7 +41,7 @@ const courses = [
 // Load courses into dropdown
 function loadCourses() {
     let courseSelect = document.getElementById("courseSelect");
-    courseSelect.innerHTML = "<option>Select a course</option>";
+    courseSelect.innerHTML = "<option disabled selected>Select a course</option>";
     courseSelect.id = "courseSelect";
 
     courses.forEach(course => {
@@ -69,6 +70,10 @@ function loadTopics(courseId) {
         option.innerText = topic.name;
         topicSelector.appendChild(option);
     });
+
+    topicSelector.addEventListener("change", function () {
+        loadQuestions(this.value);
+    });
 }
 
 // Function to Load Questions
@@ -76,12 +81,24 @@ function loadQuestions(topicId) {
     let course = courses.find(c => c.topics.some(t => t.id === topicId));
     let topic = course.topics.find(t => t.id === topicId);
     
+currentTopicQuestions = topic.questions;
+    currentQuestionIndex = 0;
+    correctAnswersCount = 0;
+
+    updateProgress();
+    showQuestion();
+}
+
+// Show Question One at a Time
+function showQuestion() {
     let questionContainer = document.getElementById("questionContainer");
     questionContainer.innerHTML = "";
 
-    topic.questions.forEach(question => {
-        questionContainer.appendChild(renderQuestion(question));
-    });
+    if (currentQuestionIndex < currentTopicQuestions.length) {
+        questionContainer.appendChild(renderQuestion(currentTopicQuestions[currentQuestionIndex]));
+    } else {
+        showResults();
+    }
 }
 
 // Function to Render Questions

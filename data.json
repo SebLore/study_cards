@@ -16,7 +16,13 @@
                 "File Allocation Table"
               ],
               "hint": "It's a common file system used in personal computers.",
-              "type": "written"
+              "type": "single-choice",
+              "options": [
+                "File Allocation Table",
+                "File Access Table",
+                "File Archive Table",
+                "File Attribute Table"
+              ]
             },
             {
               "id": "DV1697-fs-q2",
@@ -26,7 +32,7 @@
                 "FAT32"
               ],
               "hint": "It's an updated version of the original FAT system.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q3",
@@ -52,7 +58,7 @@
                 "4 GB"
               ],
               "hint": "FAT32 cannot support files larger than this size.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q5",
@@ -62,7 +68,7 @@
                 "FAT16"
               ],
               "hint": "FAT12 is an older version of FAT with smaller file system capacity.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q6",
@@ -72,7 +78,7 @@
                 "FAT32 supports larger disk sizes"
               ],
               "hint": "FAT32 can handle larger volumes than FAT16.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q7",
@@ -82,7 +88,7 @@
                 "FAT12"
               ],
               "hint": "FAT12 was used in early PC systems and MS-DOS.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q8",
@@ -108,7 +114,7 @@
                 "exFAT"
               ],
               "hint": "exFAT is an extension designed for flash drives and SD cards.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q10",
@@ -150,7 +156,7 @@
                 "File Allocation Table"
               ],
               "hint": "This table helps the system find the locations of files stored on the disk.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q13",
@@ -160,7 +166,7 @@
                 "To group sectors together for efficient file storage"
               ],
               "hint": "Clusters make storage allocation more efficient in FAT.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q14",
@@ -170,7 +176,7 @@
                 "2^12 (4,096 files)"
               ],
               "hint": "FAT12 is limited in the number of files due to its smaller file allocation table.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q15",
@@ -196,7 +202,7 @@
                 "exFAT"
               ],
               "hint": "exFAT is used in portable storage devices like flash drives.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q17",
@@ -206,7 +212,7 @@
                 "The file system becomes full and can no longer store more data"
               ],
               "hint": "If there are no free clusters, no additional files can be saved.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q18",
@@ -232,7 +238,7 @@
                 "4 KB"
               ],
               "hint": "Smaller devices like USB drives use 4 KB clusters by default.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q20",
@@ -242,7 +248,7 @@
                 "External hard drives and large SD cards"
               ],
               "hint": "exFAT is commonly used for devices requiring large file support.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q21",
@@ -252,7 +258,7 @@
                 "FAT table"
               ],
               "hint": "The FAT table maps clusters to files or free space.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q22",
@@ -262,7 +268,7 @@
                 "exFAT"
               ],
               "hint": "This file system is specifically designed for flash memory.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q23",
@@ -272,7 +278,7 @@
                 "Limited efficiency with large volumes"
               ],
               "hint": "FAT systems are less efficient with large volumes due to the table structure.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q24",
@@ -298,7 +304,7 @@
                 "2^28 (268,435,456 clusters)"
               ],
               "hint": "FAT32 allows up to 268 million clusters, supporting large disks.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q26",
@@ -308,7 +314,7 @@
                 "exFAT"
               ],
               "hint": "exFAT supports the largest disks and file sizes.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q27",
@@ -318,7 +324,7 @@
                 "FAT32"
               ],
               "hint": "FAT32 supports volume sizes up to 256 GB depending on the operating system.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q28",
@@ -328,7 +334,7 @@
                 "To track the next cluster in a file's allocation chain"
               ],
               "hint": "Each entry in the FAT points to the next cluster in the sequence.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q29",
@@ -338,7 +344,7 @@
                 "The cluster is damaged and cannot be used for storage"
               ],
               "hint": "Bad clusters cannot be used to store data and must be marked as unavailable.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q30",
@@ -348,7 +354,7 @@
                 "FAT can suffer from fragmentation, leading to slower performance"
               ],
               "hint": "Fragmentation happens when files are scattered across the disk.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q31",
@@ -358,7 +364,7 @@
                 "Windows"
               ],
               "hint": "Windows uses FAT32 for compatibility with external drives.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q32",
@@ -368,7 +374,7 @@
                 "FAT16"
               ],
               "hint": "FAT16 is often used in smaller storage media.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q33",
@@ -377,8 +383,14 @@
               "answers": [
                 "File Allocation Table and Directory Table"
               ],
+              "options": [
+                "File Allocation Table and Directory Table",
+                "Master File Table",
+                "Journaling",
+                "File System Table"
+              ],
               "hint": "The FAT table helps organize the data and directory structure.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q34",
@@ -420,7 +432,7 @@
                 "Using clusters"
               ],
               "hint": "FAT32 divides the disk into clusters for storing file data.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q37",
@@ -443,10 +455,10 @@
               "text": "What happens when a file is deleted from a FAT file system?",
               "topic": "File Systems",
               "answers": [
-                "The clusters are marked as free, but the data remains until overwritten"
+                "The clusters are marked as free, but the data remains until oversingle-choice"
               ],
               "hint": "FAT systems only mark the space as available but don't immediately erase data.",
-              "type": "written"
+              "type": "single-choice"
             },
             {
               "id": "DV1697-fs-q39",
@@ -470,7 +482,7 @@
                 "Lack of support for advanced features like file encryption"
               ],
               "hint": "FAT does not support features like encryption or access control.",
-              "type": "written"
+              "type": "single-choice"
             }
           ]
         }
@@ -483,7 +495,7 @@
         {
           "id": "IY1428-dynproc",
           "name": "Dynamiska processer",
-          "questions" :[
+          "questions": [
             {
               "id": "IY1428-dynproc-q1",
               "text": "What is the main disadvantage of using FAT for modern file systems?",
@@ -491,7 +503,63 @@
                 "Lack of support for advanced features like file encryption"
               ],
               "hint": "FAT does not support features like encryption or access control.",
-              "type": "written"
+              "type": "single-choice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "AA1111",
+      "name": "Example Course",
+      "topics": [
+        {
+          "id": "AA1111-colors",
+          "name": "Colors",
+          "questions": [
+            {
+              "id": "AA111-topic1-q1",
+              "text": "Which of the following is not considered a primary color in the RGB color model?",
+              "answers": [
+                "yellow"
+              ],
+              "options": [
+                "red",
+                "blue",
+                "yellow",
+                "green"
+              ],
+              "hint": "FAT does not support features like encryption or access control.",
+              "type": "single-choice"
+            },
+            {
+              "id": "AA111-topic1-q2",
+              "text": "The hexadecimal RGB code for red is #FF0000, true or false?",
+              "answers": [
+                "true"
+              ],
+              "hint": "In an integer system with 0-255 values, FF represents the maximum value.",
+              "options": [
+                "true",
+                "false"
+              ],
+              "type": "true-false"
+            },
+            {
+              "id": "AA111-topic1-q3",
+              "text": "Which of the following pairs are considered complementary colors?",
+              "options": [
+                "red and green",
+                "green and yellow",
+                "blue and orange",
+                "cyan and magenta"
+              ],
+              "answers": [
+                "blue and orange",
+                "red and green"
+              ],
+              "hint": "Complementary colors are opposite each other on the color wheel.",
+              "type": "multiple-choice"
             }
           ]
         }
